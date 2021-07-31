@@ -33,9 +33,9 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a href="{{route('works.index')}}" class="nav-link text-white">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-          Orders
+          Работы
         </a>
       </li>
       <li>
