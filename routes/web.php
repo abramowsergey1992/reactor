@@ -21,5 +21,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 Route::resource('personal', \App\Http\Controllers\UserController::class);
+Route::resource('reactors', \App\Http\Controllers\ReactorController::class);
 
 require __DIR__.'/auth.php';
