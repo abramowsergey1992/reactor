@@ -44,7 +44,7 @@
                             <td style="width:109px;">
                                 <a  href=" {{route('personal.edit',['personal'=>$user->id])}} " class="btn btn-warning">Редактировать</a></td>
                             <td style="width:109px;">
-                                <form action="{{route('personal.destroy')}}">
+                                <form action="{{route('personal.destroy',['personal'=>$user->id])}}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Удалить</button>

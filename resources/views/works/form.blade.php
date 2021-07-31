@@ -60,7 +60,7 @@
                         <label for="status" class="form-label">{{ __('Статус') }}</label>
                         <select name="status" class="form-control @error('status') is-invalid  @enderror" id="status"
                             required>
-                            <option value="status" @if (isset($work))
+                            <option value="В ожидании" @if (isset($work))
                                 @if ($work->status=='В ожидании')
                                 selected="selected" @endif
                 @endif>

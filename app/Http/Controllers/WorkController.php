@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WorkLog;
 use App\Models\Reactor;
 use App\Models\Work;
 use Illuminate\Http\Request;
@@ -39,10 +40,11 @@ class WorkController extends Controller
     public function store(Request $request)
     {
         $works =  Work::create($request->all());
-        // ReactorLog::create([
-        //     'reactor_id' => $reactor->id,
-        //     'action' => 'create',
-        // ]);
+        WorkLog::create([
+            'work_id' => $works->id,
+            'reactor_id' => $request->reactor_id,
+            'action' => 'create',
+        ]);
         return redirect()->route('works.index')->withSuccess('Created work ' . $request->name);
     }
 
@@ -54,9 +56,9 @@ class WorkController extends Controller
      */
     public function show(Work $work)
     {
-        $reactors = Reactor::all();
-        // $logs = ReactorLog::where('reactor_id', $reactor->id)->get();
-        return view('works.show', ['work' => $work, 'reactors' => $reactors ]);
+        $reactor = Reactor::where('id', $work->reactor_id)->first();
+        $logs = WorkLog::where('work_id', $work->id)->get();
+        return view('works.show', ['work' => $work, 'reactor'=> $reactor, 'logs' => $logs ]);
     }
 
     /**
@@ -80,14 +82,72 @@ class WorkController extends Controller
      */
     public function update(Request $request, Work $work)
     {
-        // if ($reactor->name == $request->name) {
-        //     ReactorLog::create([
-        //         'reactor_id' => $reactor->id,
-        //         'action' => 're-name',
-        //         'prev' => $reactor->name,
-        //         'now' => $request->name,
-        //     ]);
-        // }
+        if ($work->name == $request->name) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 're-name',
+                'prev' => $work->name,
+                'now' => $request->name,
+            ]);
+        }
+
+        if ($work->reactor_id == $request->reactor_id) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 're-id',
+                'prev' => $work->reactor_id,
+                'now' => $request->reactor_id,
+            ]);
+        }
+        if ($work->status == $request->status) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 'status',
+                'prev' => $work->status,
+                'now' => $request->status,
+            ]);
+        }
+        if ($work->count == $request->count) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 'count',
+                'prev' => $work->count,
+                'now' => $request->count,
+            ]);
+        }
+        if ($work->progress == $request->progress) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 'progress',
+                'prev' => $work->progress,
+                'now' => $request->progress,
+            ]);
+        }
+        if ($work->start == $request->start) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 'start',
+                'prev' => $work->start,
+                'now' => $request->start,
+            ]);
+        }
+
+        if ($work->finish == $request->finish) {
+            WorkLog::create([
+                'reactor_id' => $request->reactor_id,
+                'work_id' => $work->id,
+                'action' => 'finish',
+                'prev' => $work->finish,
+                'now' => $request->finish,
+            ]);
+        }
+
         $work->update($request->all());
 
         return redirect()->route('works.index')->withSuccess('Update work ' . $request->name);
