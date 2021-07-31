@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReactorsTable extends Migration
+class CreateReactorLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateReactorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reactors', function (Blueprint $table) {
+        Schema::create('reactor_logs', function (Blueprint $table) {
             $table->id();
-            $table->char('article')->unique();
-            $table->char('name');
-            $table->text('desc')->nullable();
-            $table->char('type');
-            $table->char('status');
-            $table->integer('countmodules');
+            $table->integer('reactor_id');
+            $table->char('action');
+            $table->char('prev')->nullable();
+            $table->char('now')->nullable();
+            $table->char('constant')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateReactorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reactors');
+        Schema::dropIfExists('reactor_logs');
     }
 }

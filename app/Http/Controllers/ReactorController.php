@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reactor;
 use Illuminate\Http\Request;
+use App\Models\ReactorLog;
 
 class ReactorController extends Controller
 {
@@ -18,6 +19,7 @@ class ReactorController extends Controller
         return view('reactors.index', compact('reactors'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -26,6 +28,7 @@ class ReactorController extends Controller
     public function create()
     {
         return view('reactors.form');
+
     }
 
     /**
@@ -36,7 +39,11 @@ class ReactorController extends Controller
      */
     public function store(Request $request)
     {
-        Reactor::create($request->all());
+        $reactor =  Reactor::create($request->all());
+        ReactorLog::create([
+            'reactor_id' => $reactor->id,
+            'action' => 'create',
+        ]);
         return redirect()->route('reactors.index')->withSuccess('Created reactor ' . $request->name);
     }
 
@@ -48,7 +55,8 @@ class ReactorController extends Controller
      */
     public function show(Reactor $reactor)
     {
-        return view('reactors.show', compact('user'));
+        $logs = ReactorLog::where('reactor_id', $reactor->id)->get();
+        return view('reactors.show', ['reactor'=> $reactor, 'logs' => $logs]);
     }
 
     /**
@@ -71,7 +79,42 @@ class ReactorController extends Controller
      */
     public function update(Request $request, Reactor $reactor)
     {
-        Reactor::udate($request->all());
+
+        if($reactor->name== $request->name){
+            ReactorLog::create([
+                'reactor_id' => $reactor->id,
+                'action' => 're-name',
+                'prev' => $reactor->name,
+                'now' => $request->name,
+            ]);
+        }
+        if($reactor->type== $request->type){
+            ReactorLog::create([
+                'reactor_id' => $reactor->id,
+                'action' => 'type',
+                'prev' => $reactor->type,
+                'now' => $request->type,
+            ]);
+        }
+        if($reactor->status== $request->status){
+            ReactorLog::create([
+                'reactor_id' => $reactor->id,
+                'action' => 'status',
+                'prev' => $reactor->status,
+                'now' => $request->status,
+            ]);
+        }
+        if($reactor->countmodules== $request->countmodules){
+            ReactorLog::create([
+                'reactor_id' => $reactor->id,
+                'action' => 'countmodules',
+                'prev' => $reactor->countmodules,
+                'now' => $request->countmodules,
+            ]);
+        }
+
+        $reactor->update($request->all());
+
         return redirect()->route('reactors.index')->withSuccess('Update reactor ' . $request->name);
     }
 

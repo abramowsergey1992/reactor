@@ -10,11 +10,10 @@
                 <thead>
                     <tr>
                         <th>Название</th>
+                        <th>Артикуль</th>
                         <th>Тип</th>
                         <th>Статус</th>
                         <th>Модули </th>
-                        <th>Начало работ </th>
-                        <th>Окончание работ </th>
 
 
                     </tr>
@@ -23,6 +22,8 @@
                     <tr class="reactor-tr">
                             <td>
                                 <p class="mb-0"><a class="user-tr__name" href="{{route('reactors.show',$reactor)}}">{{$reactor->name}}</a></p>
+                            </td>
+                            <td>
                                 <p class="mb-0"><a class="user-tr__article" href="{{route('reactors.show',$reactor)}}">{{$reactor->article}}</a></p>
                             </td>
                             <td>
@@ -32,14 +33,9 @@
                                 {{$reactor->status}}
                             </td>
                             <td>
-                                {{$reactor->countmodules}}/{{$reactor->statusmodules}}
+                                {{$reactor->countmodules}}
                             </td>
-                            <td>
-                                {{$reactor->start}}
-                            </td>
-                            <td>
-                                {{$reactor->finish}}
-                            </td>
+
 
                             <td style="width:109px;">
                                 <a  href=" {{route('reactors.edit',$reactor)}} " class="btn btn-warning">Редактировать</a></td>
@@ -53,7 +49,7 @@
                                 </td>
                         </tr>
                 @empty
-                    <p>Реакторы не найденны. <a href="{{route('reactor.create')}}">Создать новый реактор</a></p>
+                    <p>Реакторы не найденны. <a href="{{route('reactors.create')}}">Создать новый реактор</a></p>
                 @endforelse
 
             </table>
