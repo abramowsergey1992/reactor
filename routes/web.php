@@ -23,5 +23,7 @@ Route::get('/dashboard', function () {
 Route::resource('personal', \App\Http\Controllers\UserController::class);
 Route::resource('reactors', \App\Http\Controllers\ReactorController::class);
 Route::resource('works', \App\Http\Controllers\WorkController::class);
+Route::get('works/{work}/tasks', [\App\Http\Controllers\WorkController::class, 'tasks'])->name('works.tasks');
+Route::post('tasks/store', [\App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
 
 require __DIR__.'/auth.php';

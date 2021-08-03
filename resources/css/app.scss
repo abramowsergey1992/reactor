@@ -77,3 +77,27 @@
 .user-tr__phone:hover{
     color:#000;
 }
+.task-collumn{
+    min-width: 250px;
+}
+.workman-select,
+.itr-select{
+    width: 100%;
+}
+#tasks{
+    th{
+        text-align: center;
+        .duplicate-next{
+            position: relative;
+            top: -2px;
+        }
+    }
+    tbody{
+        td{
+            padding: 5px;
+        }
+    }
+    .itr-td{
+           background: #06c34257;
+    }
+}

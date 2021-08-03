@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Carbon;
 use App\Models\WorkLog;
+use App\Models\User;
+use App\Models\Task;
 use App\Models\Reactor;
 use App\Models\Work;
 use Illuminate\Http\Request;
@@ -82,7 +85,7 @@ class WorkController extends Controller
      */
     public function update(Request $request, Work $work)
     {
-        if ($work->name == $request->name) {
+        if ($work->name != $request->name) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -92,7 +95,7 @@ class WorkController extends Controller
             ]);
         }
 
-        if ($work->reactor_id == $request->reactor_id) {
+        if ($work->reactor_id != $request->reactor_id) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -101,7 +104,7 @@ class WorkController extends Controller
                 'now' => $request->reactor_id,
             ]);
         }
-        if ($work->status == $request->status) {
+        if ($work->status != $request->status) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -110,7 +113,7 @@ class WorkController extends Controller
                 'now' => $request->status,
             ]);
         }
-        if ($work->count == $request->count) {
+        if ($work->count != $request->count) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -119,7 +122,7 @@ class WorkController extends Controller
                 'now' => $request->count,
             ]);
         }
-        if ($work->progress == $request->progress) {
+        if ($work->progress != $request->progress) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -128,7 +131,7 @@ class WorkController extends Controller
                 'now' => $request->progress,
             ]);
         }
-        if ($work->start == $request->start) {
+        if ($work->start != $request->start) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -138,7 +141,7 @@ class WorkController extends Controller
             ]);
         }
 
-        if ($work->finish == $request->finish) {
+        if ($work->finish != $request->finish) {
             WorkLog::create([
                 'reactor_id' => $request->reactor_id,
                 'work_id' => $work->id,
@@ -163,5 +166,36 @@ class WorkController extends Controller
     {
         $work->delete();
         return redirect()->route('works.index')->withDanger('Deleted reactor ' . $work->name);
+    }
+
+
+    public function tasks(Work $work){
+        $itrs = User::where('role', 'itr')->get();
+        $workmans = User::where('role', 'workman')->get();
+
+        function get_dates_through_range($start, $end)
+        {
+            for (
+                $i = strtotime($start);
+                $i <= strtotime($end);
+                $i += 86400
+            ) {
+                $range[] = date("d.m.Y", $i);
+            }
+            return $range;
+        }
+        $days = get_dates_through_range($work->start, $work->finish);
+
+        $tasks = Task::where('date', '>=', $work->start)->where('work_id', $work->id)->where('date', '<=', $work->finish)->join('users','tasks.user_id', '=', 'users.id')->selectRaw('tasks.id, tasks.date,  tasks.user_id, users.role')->get();
+        $reactors = Reactor::all();
+        return view('works.tasks', [
+            'work' => $work,
+            'start'=>$work->start,
+            'finish'=>$work->finish,
+            'tasks'=>$tasks,
+            'days'=>$days,
+            'reactors' => $reactors,
+            'itrs'=> $itrs,
+            'workmans'=> $workmans]);
     }
 }

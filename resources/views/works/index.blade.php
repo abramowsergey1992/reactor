@@ -47,6 +47,8 @@
 
 
                             <td style="width:109px;">
+                                <a  href=" {{route('works.tasks',$work)}} " class="btn btn-outline-success">Задачи</a></td>
+                            <td style="width:109px;">
                                 <a  href=" {{route('works.edit',$work)}} " class="btn btn-warning">Редактировать</a></td>
                             <td style="width:109px;">
                                 <form action="{{route('works.destroy',$work)}}">

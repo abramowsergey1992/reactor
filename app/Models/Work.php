@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Work extends Model
 {
     use HasFactory;
+    protected $dates = [
+        'start', 'finish'
+    ];
     protected $casts = [
         'start' => 'datetime:d.m.Y',
         'finish' => 'datetime:d.m.Y',
