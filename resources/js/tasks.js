@@ -1,5 +1,4 @@
 $(function () {
-    console.log(itrs);
     if ($("#tasks").length) {
         $(".itr-select").select2({
             data: itrs,

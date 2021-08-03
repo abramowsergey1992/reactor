@@ -28,22 +28,36 @@
         </div>
 
         <div class="table-responsive">
-            <table class="users-table">
+            <table class="syle-table">
                 @foreach ($users as $user )
-                    <tr class="user-tr">
+                    <tr class="syle-tr">
                             <td>
                                 <p class="mb-0"><a class="user-tr__name" href="{{route('personal.show',['personal'=>$user->id])}}">{{$user->name}}</a></p>
                                 <p class="mb-0"><a class="user-tr__phone" href="tel:{{$user->phone}}">{{$user->phone}}</a></p>
                             </td>
                             <td>
-                                {{$user->role}}
+                                @switch($user->role)
+                                    @case('administrator')
+                                        Админ
+                                        @break
+                                    @case('itr')
+                                        ИТР
+                                        @break
+                                    @case('workman')
+                                        Рабочий
+                                        @break
+                                    @default
+
+                                @endswitch
                             </td>
                             <td>
                                 {{$user->specialization}}
                             </td>
                             <td style="width:109px;">
                                 <a  href=" {{route('personal.edit',['personal'=>$user->id])}} " class="btn btn-warning">Редактировать</a></td>
-                            <td style="width:109px;">
+                            <td style="">
+                                <a  href=" {{route('personal.changepass',['personal'=>$user->id])}} " class="btn btn-info">Пароль</a></td>
+                            <td >
                                 <form action="{{route('personal.destroy',['personal'=>$user->id])}}">
                                     @csrf
                                     @method('DELETE')

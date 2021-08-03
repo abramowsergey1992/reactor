@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
+use App\Models\Work;
+use App\Models\Reactor;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -48,7 +52,7 @@ class UserController extends Controller
         $user->role = $request['role'];
         $user->phone = $request['phone'];
         $user->specialization = $request['specialization'];
-        $user->password = hash('sha512', $request['password']);
+        $user->password = Hash::make( $request['password']);
         $user->save();
         redirect(route('personal.index'));
     }
@@ -62,7 +66,10 @@ class UserController extends Controller
     public function show($persona)
     {
         $user = User::where('id', $persona)->first();
-        return view('users.show', compact('user'));
+        $tasks= Task::where('user_id', $user->id)->join('works', 'tasks.work_id', '=', 'works.id')->get();
+        $reactors =  Reactor::get();
+
+        return view('users.show',  ['user' => $user, 'tasks' => $tasks,'reactors' =>  $reactors]);
     }
 
     /**
@@ -85,6 +92,20 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
+    public function changepassform($persona){
+        $user = User::where('id', $persona)->first();
+        return view('users.changepassform', compact('user'));
+    }
+    public function changepass(Request $request, $persona){
+        $this->validate($request, [
+            'password'     => 'required',
+        ]);
+        $user = User::where('id', $persona)->first();
+        $user->password = Hash::make( $request['password']);
+        $user->save();
+        return redirect()->route('personal.index')->withSuccess('Updated password ' . $user->name);
+    }
+
     public function update(Request $request, $persona)
     {
         $user = User::where('id', $persona)->first();

@@ -5,9 +5,41 @@
         <h1>Работы</h1>
         @if(count($works)!=0)
 
+        <script type="text/javascript">
+var lngth ={{count($reactors)}};
+var sidebarlist =[
+   @for ($i = 0; $i < count($reactors); $i++)
+         "<label>{{$reactors[$i]->name}}</label>"
+
+     @if(count($reactors)-1!==$i)
+     ,
+     @endif
+@endfor
+  ];
+</script>
+        <div id="WorksTimeline">
+                  <ul class="timeline-events">
+                    @for ($i = 1; $i <= count($reactors); $i++)
+
+                      @foreach ($works as $work)
+                        @if ($work->reactor_id==$reactors[$i-1]->id)
+                          <li data-timeline-node="{row: {{$i}}, start:'{{$work->start}}'  ,end:'{{$work->finish}}' ,bgColor:'#9acd32'}">
+                           <span class="event-label"> <a href="{{route('works.show',$work->id)}}">{{$work->name}}</a> </span>
+                             <span class="event-content"><p>Event Body...</p></span>
+                          </li>
+                        @endif
+
+                      @endforeach
+
+
+                    @endfor
+                    </ul>
+                </div>
+
+
         <div class="table-responsive">
 
-            <table class="reactor-table" style="min-width:100%">
+            <table class="syle-table" style="min-width:100%">
                @isset($works)
                 <thead>
                     <tr>
@@ -25,7 +57,7 @@
 
 
                 @foreach ($works as $work )
-                    <tr class="works-tr">
+                    <tr  class="syle-tr" >
                             <td>
                                 <p class="mb-0"><a class="user-tr__name" href="{{route('works.show',$work)}}">{{$work->name}}</a></p>
                             </td>

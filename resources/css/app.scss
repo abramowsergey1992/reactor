@@ -39,28 +39,31 @@
 .users__filter label{
     margin-bottom: 5px;
 }
-.users-table{
+.syle-table{
     width: 100%;
     border-collapse: separate;
     border-spacing: 0px 10px;
     vertical-align: middle;
 }
-.users-table tr{
+.syle-table thead  tr{
+    background:transparent;
+}
+.syle-table tr{
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 1px 3px 0 rgba(54, 74 ,99 ,0.05);
 
 }
-.users-table tr td{
+.syle-table tr td{
     padding-top: 5px;
     padding-bottom: 5px;
     vertical-align: middle;
 }
-.users-table tr td:first-child{
+.syle-table tr td:first-child{
     padding-left: 20px;
 }
-.users-table tr td:last-child{
+.syle-table tr td:last-child{
     padding-right: 20px;
 }
 .user-tr__phone{
@@ -101,3 +104,4 @@
            background: #06c34257;
     }
 }
+.jqtl-event-node::after{display:none !important}

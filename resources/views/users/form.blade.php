@@ -112,6 +112,7 @@
                     @endif>Маляр</option>
             </select>
         </div>
+        @if(!isset($user))
         <div class="mb-3">
             <label for="password"class="form-label">{{__('Пароль')}}</label>
             <input type="text" class="form-control @error('password') is-invalid  @enderror"  name="password" id="password" autocomplete="new-password"  value="@if (isset($user)) {{ $user->password }}@else{{ old('password') }} @endif " required >
@@ -119,7 +120,7 @@
                 <div class="invalid-feedback">{!! $message !!}</div>
             @enderror
         </div>
-
+        @endif
     </div>
     <div class="card-footer text-muted">
         <button class="btn btn-primary "type="submit"> @if(isset($user))

@@ -2,11 +2,17 @@
 
 @section('content')
     <div class="users h-100vh">
-        <h1>Реакторы</h1>
+        <div class="row">
+            <div class="col-md-6"><h1>Реакторы</h1></div>
+            <div class="col-md-6" >                        <a class="btn btn-success" href="{{route('reactors.create')}}">Добавить реактор</a>
+</div>
+        </div>
+
+
 
 
         <div class="table-responsive">
-            <table class="reactor-table" style="min-width:100%">
+            <table class="syle-table" style="min-width:100%">
                 <thead>
                     <tr>
                         <th>Название</th>
@@ -14,12 +20,14 @@
                         <th>Тип</th>
                         <th>Статус</th>
                         <th>Модули </th>
+                        <th> </th>
+                        <th> </th>
 
 
                     </tr>
                 </thead>
                 @forelse ($reactors as $reactor )
-                    <tr class="reactor-tr">
+                    <tr class="syle-tr">
                             <td>
                                 <p class="mb-0"><a class="user-tr__name" href="{{route('reactors.show',$reactor)}}">{{$reactor->name}}</a></p>
                             </td>

@@ -19,8 +19,9 @@ class WorkController extends Controller
      */
     public function index()
     {
-        $works = Work::paginate();
-        return view('works.index', compact('works'));
+        $works = Work::get();
+        $reactors = Reactor::get();
+        return view('works.index', [   'works'=> $works,'reactors' => $reactors]);
     }
 
     /**
